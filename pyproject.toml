@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+authors = [{ name = "Minh Hoang Ton", email = "mton@webstraw.org" }]
+name = "webstraw-anatomy"
+version = "0.1.0"
+description = "A web scraper for webstraw anatomy app"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+]
+dependencies = ["beautifulsoup4", "requests", "firecrawl-py"]
