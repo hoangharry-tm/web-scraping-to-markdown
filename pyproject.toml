@@ -13,4 +13,10 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",
 ]
-dependencies = ["beautifulsoup4", "requests", "firecrawl-py", "ratelimit"]
+dependencies = [
+  "beautifulsoup4",
+  "requests",
+  "firecrawl-py",
+  "ratelimit",
+  "colorama",
+]

@@ -2,12 +2,15 @@ import os
 import re
 import json
 from typing import Literal, Self
+from dotenv import load_dotenv
 
 import requests
 from bs4 import BeautifulSoup
 import ratelimit
 
-PAGE = 355
+PAGE = 381
+
+load_dotenv(".env")
 
 class DataCollector:
     anatomy_data: dict[str, dict[str, str]] = {}
@@ -31,7 +34,7 @@ class DataCollector:
         self.page = PAGE
         self.firecrawl_url = "https://api.firecrawl.dev/v1/scrape"
         self.headers = {
-            "Authorization": "Bearer fc-cc23fbdf1f2f48fda421599533a4c140",
+            "Authorization": f"Bearer {os.getenv('FIRECRAWL_TOKEN')}",
             "Content-Type": "application/json"
         }
         self.track_fails = 0
@@ -50,7 +53,7 @@ class DataCollector:
                 + f"?query=&page={page_index}&sortBy=alphabeticalAsc"
             )
             # FIXME: Change the range to 1 - 772
-            for page_index in range(self.page, 772)
+            for page_index in range(self.page, 391)
         ]
         for i, url in enumerate(self.urls):
             print(self.page + i)
@@ -69,6 +72,7 @@ class DataCollector:
             res = requests.request("POST", self.firecrawl_url, json=payload, headers=self.headers)
             # res = open("firecrawl.txt", "r").read()
             parsed_res = BeautifulSoup(res.content, "html.parser")
+            print(parsed_res)
             # parsed_res = BeautifulSoup(res, "html.parser")
             parsed_res = json.loads(parsed_res.text)['data']['markdown']
             md_res = str(parsed_res).split("\n")
