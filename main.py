@@ -7,6 +7,8 @@ from bs4 import BeautifulSoup
 import ratelimit
 
 
+PAGE = 13
+
 class DataCollector:
     anatomy_data: dict[str, dict[str, str]] = {}
     """
@@ -27,6 +29,9 @@ class DataCollector:
 
     def __init__(self, urls: list[str]):
         self.urls = urls
+        self.headers = {
+            'Authorization': 'Bearer jina_f1b8ba95da4f4590a25b7f6449672aa4UUiylztDt5YqvhRb5UN6QeVLHbDx'
+        }
 
     def transform_html(self, content):
         return BeautifulSoup(str(content), "html.parser")
@@ -34,16 +39,11 @@ class DataCollector:
     @ratelimit.limits(calls=20, period=60)
     @ratelimit.sleep_and_retry
     def get_data(self) -> Self:
-        """
-        Use Jina AI to get data
-        """
         print("Getting data...")
         os.makedirs("./cache-requests/", exist_ok=True)
-        # os.remove("./cache-requests/failed-requests.txt")
-        # os.remove("./cache-requests/success-requests.txt")
         for i, url in enumerate(self.urls):
-            print(i + 1)
-            res = requests.get(url, timeout=1000)
+            print(i + 6)
+            res = requests.request("POST", url, headers=self.headers, timeout=1000)
             parsed_res = BeautifulSoup(res.content, "html.parser")
             md_res: list[str] = str(parsed_res).split("\n")
             filtered_res: list[str] = list(
@@ -66,8 +66,8 @@ class DataCollector:
 
             if filtered_res == [] or is_delete is False:
                 print("Failed")
-                with open("./cache-requests/failed-requests.txt", "a") as f:
-                    f.write(f"{i}\n")
+                # with open("./cache-requests/failed-requests.txt", "a") as f:
+                #     f.write(f"{i + 1}\n")
                 continue
 
             del filtered_res[0]  # Delete the top line "Search results..."
@@ -100,7 +100,7 @@ class DataCollector:
 
             print("Success")
             with open("./cache-requests/success-requests.txt", "a") as f:
-                f.write(f"#{i + 1}\n")
+                f.write(f"#{i + 6}\n")
                 for info in log_md_link:
                     f.write(f"{info[0]}\n{info[1]}\n")
                 f.write("\n")
@@ -219,7 +219,7 @@ def main():
             + f"?query=&page={page_index}&sortBy=alphabeticalAsc"
         )
         # FIXME: Change the range to 1 - 772
-        for page_index in range(1, 772)
+        for page_index in range(6, 772)
     ]
 
     anatomy_data = DataCollector(URLs)

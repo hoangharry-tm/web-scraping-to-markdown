@@ -1,0 +1,10 @@
+.PHONY: run firecrawl data_processor
+
+run:
+	@python3 main.py
+
+firecrawl:
+	@python3 firecrawl.py
+
+data_processor:
+	@python3 ./src/data_processor.py
