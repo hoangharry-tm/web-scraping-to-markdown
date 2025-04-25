@@ -8,7 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 import ratelimit
 
-PAGE = 391
+PAGE = 431
 
 load_dotenv(".env")
 
