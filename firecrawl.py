@@ -8,7 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 import ratelimit
 
-PAGE = 431
+PAGE = 529
 
 load_dotenv(".env")
 
@@ -34,6 +34,7 @@ class DataCollector:
         self.page = PAGE
         self.firecrawl_url = "https://api.firecrawl.dev/v1/scrape"
         self.headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
             "Authorization": f"Bearer {os.getenv('FIRECRAWL_TOKEN')}",
             "Content-Type": "application/json"
         }
@@ -74,6 +75,7 @@ class DataCollector:
             parsed_res = BeautifulSoup(res.content, "html.parser")
             # parsed_res = BeautifulSoup(res, "html.parser")
             parsed_res = json.loads(parsed_res.text)['data']['markdown']
+            # print(parsed_res)
             md_res = str(parsed_res).split("\n")
 
             line: int = 0
@@ -94,6 +96,7 @@ class DataCollector:
                 print("Failed")
                 # with open("./cache-requests/failed-requests.txt", "a") as f:
                 #     f.write(f"{i + 1}\n")
+                #FIXME: Change this into >= 2
                 if self.track_fails >= 2:
                     return
                 self.page = self.page + i

@@ -19,4 +19,5 @@ dependencies = [
   "firecrawl-py",
   "ratelimit",
   "colorama",
+  "selenium",
 ]

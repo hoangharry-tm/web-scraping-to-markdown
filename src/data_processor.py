@@ -20,7 +20,7 @@ def process_data(from_page: int = 0):
             return
         markdown_file += f"\n{heading_level * '#'} {content}\n"
 
-    print("Processing data...")
+    print("Processing data...\n\n")
 
     path = Path("./").parent.joinpath("cache-requests/success-requests.txt")
     cache_requests = (open(path, "r")
@@ -49,7 +49,7 @@ def process_data(from_page: int = 0):
             anatomy_part = ""
 
     for anatomy_part, links in anatomy_data.items():
-        print(f"{anatomy_part}\nProcessing...")
+        print(f"{"-" * 10}> {anatomy_part} <{"-" * 10}\nProcessing...")
 
         for count, link in enumerate(links):
             markdown_file = f"# {anatomy_part}\n\n"
@@ -116,9 +116,10 @@ def process_data(from_page: int = 0):
 
             with open(f"./data/{anatomy_part} {count + 1}.md", "w") as f:
                 f.write(markdown_file)
-                print("{count + 1} >>> Done.")
+                print(f"{count + 1} >>> Done.")
             content_main_headings = []
-            print("\n")
+
+        print("\n")
 
 if __name__ == "__main__":
     process_data(431)

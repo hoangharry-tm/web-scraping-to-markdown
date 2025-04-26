@@ -5,5 +5,5 @@
 !firecrawl.py
 !.gitignore
 !src/
-!src/*
+!src/*.py
 !makefile
