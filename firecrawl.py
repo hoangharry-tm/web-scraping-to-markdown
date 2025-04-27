@@ -8,7 +8,7 @@ import requests
 from bs4 import BeautifulSoup
 import ratelimit
 
-PAGE = 529
+PAGE = 672
 
 load_dotenv(".env")
 
@@ -97,7 +97,7 @@ class DataCollector:
                 # with open("./cache-requests/failed-requests.txt", "a") as f:
                 #     f.write(f"{i + 1}\n")
                 #FIXME: Change this into >= 2
-                if self.track_fails >= 2:
+                if self.track_fails >= 1:
                     return
                 self.page = self.page + i
                 self.track_fails += 1
